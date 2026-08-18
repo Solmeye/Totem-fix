@@ -1,0 +1,70 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+}
+
+def modProps = [
+        "maven_group"                 : project.maven_group,
+        "mod_id"                      : project.mod_id,
+        "mod_name"                    : project.mod_name,
+        "mod_version"                 : project.mod_version,
+        "description"                 : project.description,
+        "authors"                     : project.authors,
+        "homepage"                    : project.homepage,
+        "modrinth"                    : project.modrinth,
+        "discord"                     : project.discord,
+        "license"                     : project.license,
+        "icon"                        : project.icon,
+        "minecraft_range"             : project.minecraft_range,
+        "loader_version"              : project.loader_version,
+        "min_loader_version"          : project.min_loader_version,
+        "min_java"                    : project.min_java
+]
+
+processResources {
+    inputs.properties(modProps)
+
+    filesMatching("fabric.mod.json") {
+        expand(modProps)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+java {
+	//withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+	def projectName = project.name
+	inputs.property "projectName", projectName
+
+	from("LICENSE") {
+		rename { "${it}_$projectName"}
+	}
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/totem-fix.accesswidener")
+
+        runs {
+        client {
+            programArgs "--username", "Username"
+        }
+    }
+}
