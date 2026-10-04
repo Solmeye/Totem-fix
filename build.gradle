@@ -2,8 +2,8 @@ plugins {
 	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 }
 
-version = project.mod_version
-group = project.maven_group
+version = project.version
+group = project.group
 
 repositories {
 }
@@ -14,10 +14,10 @@ dependencies {
 }
 
 def modProps = [
-        "maven_group"                 : project.maven_group,
-        "mod_id"                      : project.mod_id,
-        "mod_name"                    : project.mod_name,
-        "mod_version"                 : project.mod_version,
+        "group"                 : project.group,
+        "id"                      : project.id,
+        "name"                    : project.name,
+        "version"                 : project.version,
         "description"                 : project.description,
         "authors"                     : project.authors,
         "homepage"                    : project.homepage,
@@ -34,13 +34,17 @@ def modProps = [
 processResources {
     inputs.properties(modProps)
 
-    filesMatching("fabric.mod.json") {
+    filesMatching(["fabric.mod.json", "totem-fix.mixins.json"]) {
         expand(modProps)
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 25
+}
+
+tasks.jar {
+    archiveFileName = "${rootProject.name}-${version}+${minecraft_version}.jar"
 }
 
 java {
