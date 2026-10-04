@@ -16,6 +16,3 @@ It uses [Mixin](https://fabricmc.net/wiki/tutorial:mixin_introduction) to replac
 
 ## Compatibility
 Totem fix should work with any mod. If you encounter any incompability, feel free to contact me and inform me of it.
-
-## Support me!
-Join my Hardcore Minecraft server: [HardcoreSMP](https://modrinth.com/server/hardcoresmp_) - `38.143.19.130`
