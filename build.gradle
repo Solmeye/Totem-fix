@@ -64,9 +64,7 @@ jar {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/totem-fix.accesswidener")
-
-        runs {
+    runs {
         client {
             programArgs "--username", "Username"
         }

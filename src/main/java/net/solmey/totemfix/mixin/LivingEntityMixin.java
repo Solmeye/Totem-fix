@@ -30,9 +30,9 @@ public class LivingEntityMixin {
             target = "Lnet/minecraft/world/entity/LivingEntity;isDeadOrDying()Z"
         )
     )
-    private void baseTick(CallbackInfo ci) {
+    private void totemfix$baseTick(CallbackInfo ci) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
-        if (livingEntity.invulnerableTime <= 10) {
+        if (!livingEntity.wasHurtRecently()) {
             this.globalProtectionItem = null;
             this.globalProtection = null;
         }
@@ -43,7 +43,7 @@ public class LivingEntityMixin {
         method = "checkTotemDeathProtection",
         cancellable = true
     )
-    private void checkTotemDeathProtection(
+    private void totemfix$checkTotemDeathProtectionHEAD(
         DamageSource killingDamage,
         CallbackInfoReturnable<Boolean> ci
     ) {
@@ -52,10 +52,10 @@ public class LivingEntityMixin {
         } else if (this.globalProtection != null) {
             LivingEntity livingEntity = (LivingEntity) (Object) this;
             livingEntity.setHealth(1.0F);
-            this.globalProtection.applyEffects(
+            /*this.globalProtection.applyEffects(
                 this.globalProtectionItem,
                 livingEntity
-            );
+            );*/
             ci.setReturnValue(true);
         }
     }
@@ -65,7 +65,7 @@ public class LivingEntityMixin {
         at = @At("RETURN"),
         locals = LocalCapture.CAPTURE_FAILSOFT
     )
-    private void onCheckTotemDeathProtection(
+    private void totemfix$CheckTotemDeathProtectionRETURN(
         DamageSource killingDamage,
         CallbackInfoReturnable<Boolean> cir,
         ItemStack protectionItem,
